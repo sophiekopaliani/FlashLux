@@ -26,7 +26,7 @@ enum ProviderViewModeTabItem: Int, CaseIterable {
 }
 
 struct TabBarView: View {
-//  @StateObject private var flashCardsVM = FlashCardsViewModel()
+  private var flashCardsVM = FlashCardsViewModel()
 
   @State var selectedTab: ProviderViewModeTabItem = .search
 
@@ -41,16 +41,10 @@ struct TabBarView: View {
 
   private func getTabViewContent() -> some View {
     TabView(selection: $selectedTab) {
-//      WordSearchView(viewModel: WordSearchViewModel()) //TODO: *S
-//        .tag(ProviderViewModeTabItem.search)
-//
-//      FlashCardsView(viewModel: flashCardsVM)
-//        .tag(ProviderViewModeTabItem.learn)
-
-      Text("test 1")
+      WordSearchView(viewModel: WordSearchViewModel()) //TODO: *S
         .tag(ProviderViewModeTabItem.search)
 
-      Text("test 2")
+      FlashCardsView(viewModel: flashCardsVM)
         .tag(ProviderViewModeTabItem.learn)
 
       DeckView()

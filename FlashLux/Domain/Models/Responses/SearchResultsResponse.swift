@@ -18,6 +18,11 @@ public struct SearchResultsResponse {
   }
 }
 
+extension SearchResultsResponse: Codable { }
+extension SearchResultsResponse: Equatable { }
+extension SearchResultsResponse: Hashable { }
+extension SearchResultsResponse: Sendable { }
+
 public struct SearchResult {
   public let id: String
   public let articleId: String
@@ -49,11 +54,6 @@ public struct SearchResult {
   }
 }
 
-extension SearchResultsResponse: Codable { }
-extension SearchResultsResponse: Equatable { }
-extension SearchResultsResponse: Hashable { }
-extension SearchResultsResponse: Sendable { }
-
 extension SearchResult: Codable {
   enum CodingKeys: String, CodingKey {
     case id
@@ -69,3 +69,8 @@ extension SearchResult: Codable {
 extension SearchResult: Equatable { }
 extension SearchResult: Hashable { }
 extension SearchResult: Sendable { }
+extension SearchResult: Identifiable {
+  public static func == (lhs: SearchResult, rhs: SearchResult) -> Bool {
+    lhs.id == rhs.id
+  }
+}
