@@ -22,7 +22,7 @@ struct FrontCardView: View {
   private var displayText: String {
     guard showTranslation else { return card.word }
 
-    guard let translation = card.translation, translation.isEmpty else { return card.word }
+    guard let translation = card.translation, !translation.isEmpty else { return card.word }
 
     return translation
   }
