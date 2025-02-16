@@ -8,7 +8,16 @@
 import Foundation
 
 @Observable final class WordDetailsViewModel {
+  let wordId: String
   var wordDetails: DeckCard? = nil
+
+  init(wordId: String) {
+    self.wordId = wordId
+  }
+
+  func loadDetails() {
+    request(with: wordId)
+  }
 
   func request(with wordID: String) {
     Task {

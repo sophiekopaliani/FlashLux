@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DeckView: View { //TODO: *S rename to DeckListView
+struct DeckListView: View { //TODO: *S rename to DeckListView
   @State private var viewModel = DeckViewModel()
 
   var body: some View {
@@ -24,7 +24,7 @@ struct DeckView: View { //TODO: *S rename to DeckListView
   }
 
   private func wordRow(for word: WordOverview) -> some View {
-    NavigationLink(destination: WordDetailsView(wordId: word.id)) {
+    NavigationLink(destination: WordDetailsView(viewModel: .init(wordId: word.id))) {
       Text(word.name)
     }
     .swipeActions(edge: .trailing) {

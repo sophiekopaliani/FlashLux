@@ -26,6 +26,8 @@ enum ProviderViewModeTabItem: Int, CaseIterable {
 }
 
 struct TabBarView: View {
+  @Environment(\.providerModeCoordinator) var coordinator
+
   private var flashCardsVM = FlashCardsViewModel()
 
   @State var selectedTab: ProviderViewModeTabItem = .search
@@ -41,16 +43,70 @@ struct TabBarView: View {
 
   private func getTabViewContent() -> some View {
     TabView(selection: $selectedTab) {
-      WordSearchView(viewModel: WordSearchViewModel()) //TODO: *S
+      wordSearchBaseView()
         .tag(ProviderViewModeTabItem.search)
 
-      FlashCardsView(viewModel: flashCardsVM)
+      flasCardsView()
         .tag(ProviderViewModeTabItem.learn)
 
-      DeckView()
+      deckListView()
         .tag(ProviderViewModeTabItem.saved)
     }
     .sensoryFeedback(.selection, trigger: selectedTab)
+  }
+
+  @ViewBuilder
+  func wordSearchBaseView() -> some View {
+    @Bindable var coordinator = coordinator
+
+    NavigationStack(path: $coordinator.searchRoute.path) {
+      WordSearchView(viewModel: WordSearchViewModel())
+        .navigationDestination(for: SearchRoute.self) { selection in
+          switch selection {
+          case .wordSearch:
+            WordSearchView(viewModel: WordSearchViewModel())
+          case .suggestedWords(let word):
+            let vm = SuggestedWordsViewModel(word: word)
+            SuggestedWordsView(viewModel: vm)
+          case .wordDetails(let wordID):
+            let vm = WordDetailsViewModel(wordId: wordID)
+            WordDetailsView(viewModel: vm)
+          }
+        }
+    }
+  }
+
+  @ViewBuilder
+  func flasCardsView() -> some View {
+    @Bindable var coordinator = coordinator
+
+    NavigationStack(path: $coordinator.searchRoute.path) {
+      FlashCardsView(viewModel: flashCardsVM)
+        .navigationDestination(for: LearnRoute.self) { selection in
+          switch selection {
+          case .flashCards:
+            FlashCardsView(viewModel: flashCardsVM)
+          }
+        }
+    }
+  }
+
+  @ViewBuilder
+  func deckListView() -> some View {
+    @Bindable var coordinator = coordinator
+
+    NavigationStack(path: $coordinator.searchRoute.path) {
+      DeckListView()
+        .navigationDestination(for: DeckRoute.self) { selection in
+          switch selection {
+          case .DeckList:
+            DeckListView()
+          case .WordDetails(let wordID):
+            let vm = WordDetailsViewModel(wordId: wordID)
+            WordDetailsView(viewModel: vm)
+          }
+        }
+    }
   }
 
   @ViewBuilder

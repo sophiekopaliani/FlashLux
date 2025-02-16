@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct WordSearchView: View {
-  @State public var viewModel: WordSearchViewModel
+  @State  var viewModel: WordSearchViewModel
   @State private var searchTerm: String = ""
 
   var body: some View {
@@ -32,8 +32,7 @@ struct WordSearchView: View {
     List(viewModel.results, id: \.word) { word in
       NavigationLink(
         destination: SuggestedWordsView(
-          word: word.word,
-          viewModel: SuggestedWordsViewModel()
+          viewModel: SuggestedWordsViewModel(word: word.word)
         )
       ) {
         Text(word.word)

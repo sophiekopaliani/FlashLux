@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct WordDetailsView: View {
-  let wordId: String
-  @State private var viewModel = WordDetailsViewModel()
+  @State var viewModel: WordDetailsViewModel
 
   var body: some View {
     Group {
@@ -19,7 +18,7 @@ struct WordDetailsView: View {
         ProgressView()
       }
     }
-    .task { viewModel.request(with: wordId) }
+    .task { viewModel.loadDetails() }
   }
 
   private func wordContent(_ details: DeckCard) -> some View {

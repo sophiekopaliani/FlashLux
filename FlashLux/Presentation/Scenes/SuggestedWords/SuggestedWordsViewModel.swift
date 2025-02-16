@@ -7,9 +7,19 @@
 
 import Foundation
 
-@Observable final class SuggestedWordsViewModel {
+@Observable
+final class SuggestedWordsViewModel {
+  let word: String
+
+  init(word: String) {
+    self.word = word
+  }
 
   var results: [SearchResult] = []
+
+  func loadSuggestedWords() {
+    request(with: word)
+  }
 
   func request(with word: String) {
     Task {

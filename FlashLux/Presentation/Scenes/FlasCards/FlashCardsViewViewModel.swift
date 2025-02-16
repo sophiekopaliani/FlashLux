@@ -8,7 +8,8 @@
 import Foundation
 import SwiftUI
 
-@Observable final class FlashCardsViewModel {
+@Observable
+final class FlashCardsViewModel {
 
   private var deck: Deck? = nil
   var deckState: DeckState = .playing

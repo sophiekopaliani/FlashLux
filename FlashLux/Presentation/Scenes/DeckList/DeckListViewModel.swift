@@ -7,7 +7,8 @@
 
 import Foundation
 
-@Observable class DeckViewModel {
+@Observable
+class DeckViewModel {
   var deckToDisplay: [WordOverview] = []
 
   func loadDeck() {
