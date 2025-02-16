@@ -59,7 +59,7 @@ public struct Entry {
   public let audioString: String
   public let audioFiles: AudioFiles
 //  public let allSynonyms: AllSynonyms?
-  public let videos: [VideoReference]
+//  public let videos: [VideoReference]
  // public let infoboxes: InfoBoxes?
   public let categories: [Category]
 }
@@ -77,7 +77,7 @@ extension Entry: Codable {
       audioString,
       audioFiles,
  //     allSynonyms,
-      videos,
+//      videos,
     //  infoboxes,
       categories
     case lodID = "lod_id"
@@ -326,12 +326,12 @@ public struct TextPart {
 public struct VideoReference {
   public let meaningID: String
   public let meaningVideo: String
-  public let meaningNumber: Int
+  public let meaningNumber: Int?
 
   public init(
     meaningID: String,
     meaningVideo: String,
-    meaningNumber: Int
+    meaningNumber: Int?
   ) {
     self.meaningID = meaningID
     self.meaningVideo = meaningVideo
