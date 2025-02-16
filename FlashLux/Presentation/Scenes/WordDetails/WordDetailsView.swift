@@ -43,6 +43,7 @@ struct WordDetailsView: View {
     VStack(alignment: .leading, spacing: 8) {
       HStack(alignment: .bottom) {
         Text(details.word).font(.largeTitle)
+        copy(word: details.word)
         addButton
         Text(details.transcription ?? "")
       }
@@ -50,10 +51,22 @@ struct WordDetailsView: View {
     }
   }
 
+  @ViewBuilder
+  private func copy(word: String) -> some View {
+    Button {
+      UIPasteboard.general.string = word
+    } label: {
+      Image(systemName: "doc.on.doc")
+        .font(.system(size: 16))
+    }
+  }
+
+  @ViewBuilder
   private var addButton: some View {
     Button("add") { viewModel.addToDeck() }
   }
 
+  @ViewBuilder
   private func definitionSection(_ details: DeckCard) -> some View {
     ScrollView {
       VStack(alignment: .leading) {
@@ -66,6 +79,7 @@ struct WordDetailsView: View {
     .scrollDisabled(details.translations.count < 15)
   }
 
+  @ViewBuilder
   private func definitionHeader(_ details: DeckCard) -> some View {
     HStack {
       Text("Definition:")
@@ -77,6 +91,7 @@ struct WordDetailsView: View {
     }
   }
 
+  @ViewBuilder
   private var translationsList: some View {
     LazyVStack(alignment: .leading) {
       ForEach(viewModel.wordDetails?.translations ?? [], id: \.self) { translation in
