@@ -14,18 +14,43 @@ struct WordSearchView: View {
   @State  var viewModel: WordSearchViewModel
   @State private var searchTerm: String = ""
 
+  @FocusState private var isSearchFocused: Bool
+
   var body: some View {
-    searchResults
-      .listStyle(.plain)
-      .navigationTitle("Search")
-      .searchable(
-        text: $searchTerm,
-        placement: .automatic,
-        prompt: "Enter search word here"
-      )
-      .task(id: searchTerm) {
-        viewModel.request(with: searchTerm)
-      }
+    if #available(iOS 18.0, *) {
+      searchResults
+        .listStyle(.plain)
+        .navigationTitle("Search")
+        .searchable(
+          text: $searchTerm,
+          placement: .automatic,
+          prompt: "Enter search word here"
+        )
+        .searchFocused($isSearchFocused)
+        .onAppear {
+          isSearchFocused = true
+          searchTerm = ""
+        }
+        .task(id: searchTerm) {
+          viewModel.request(with: searchTerm)
+        }
+    } else { //Withous search focus remove it afte upgrading
+      searchResults
+        .listStyle(.plain)
+        .navigationTitle("Search")
+        .searchable(
+          text: $searchTerm,
+          placement: .automatic,
+          prompt: "Enter search word here"
+        )
+        .onAppear {
+          isSearchFocused = true
+          searchTerm = ""
+        }
+        .task(id: searchTerm) {
+          viewModel.request(with: searchTerm)
+        }
+    }
   }
 
   private var searchResults: some View {

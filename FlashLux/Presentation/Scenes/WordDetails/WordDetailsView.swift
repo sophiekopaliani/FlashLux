@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WordDetailsView: View {
+  @Environment(\.providerModeCoordinator) private var coordinator
   @State var viewModel: WordDetailsViewModel
 
   var body: some View {
@@ -19,6 +20,15 @@ struct WordDetailsView: View {
       }
     }
     .task { viewModel.loadDetails() }
+    .toolbar {
+      ToolbarItem(placement: .navigationBarTrailing) {
+        Button {
+          coordinator.searchRoute.popToRoot()
+        } label: {
+          Image(systemName: "magnifyingglass")
+        }
+      }
+    }
   }
 
   private func wordContent(_ details: DeckCard) -> some View {
