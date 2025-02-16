@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SuggestedWordsView: View {
+  @Environment(\.providerModeCoordinator) var coordinator
   @State var viewModel: SuggestedWordsViewModel
 
   var body: some View {
@@ -18,11 +19,16 @@ struct SuggestedWordsView: View {
   }
 
   private func wordRow(for suggestion: SearchResult) -> some View {
-    NavigationLink(destination: WordDetailsView(viewModel: .init(wordId: suggestion.id))) {
+    Button {
+      coordinator.searchRoute.navigate(
+        to: .wordDetails(suggestion.id)
+      )
+    } label: {
       VStack(alignment: .leading) {
         Text(suggestion.wordLb)
           .font(.title3)
           .fontWeight(.medium)
+          .foregroundStyle(.black)
         Text(suggestion.pos)
       }
     }

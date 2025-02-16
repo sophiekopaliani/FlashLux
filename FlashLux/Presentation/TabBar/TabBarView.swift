@@ -80,7 +80,7 @@ struct TabBarView: View {
   func flasCardsView() -> some View {
     @Bindable var coordinator = coordinator
 
-    NavigationStack(path: $coordinator.searchRoute.path) {
+    NavigationStack(path: $coordinator.learnRoute.path) {
       FlashCardsView(viewModel: flashCardsVM)
         .navigationDestination(for: LearnRoute.self) { selection in
           switch selection {
@@ -95,7 +95,7 @@ struct TabBarView: View {
   func deckListView() -> some View {
     @Bindable var coordinator = coordinator
 
-    NavigationStack(path: $coordinator.searchRoute.path) {
+    NavigationStack(path: $coordinator.deckRoute.path) {
       DeckListView()
         .navigationDestination(for: DeckRoute.self) { selection in
           switch selection {

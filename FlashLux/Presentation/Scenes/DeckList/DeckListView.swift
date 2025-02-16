@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct DeckListView: View { //TODO: *S rename to DeckListView
+struct DeckListView: View {
+  @Environment(\.providerModeCoordinator) var coordinator
+
   @State private var viewModel = DeckViewModel()
 
   var body: some View {
-    NavigationStack {
-      deckList
-        .task { viewModel.loadDeck() }
-    }
+    deckList
+      .task { viewModel.loadDeck() }
   }
 
   private var deckList: some View {
@@ -24,8 +24,11 @@ struct DeckListView: View { //TODO: *S rename to DeckListView
   }
 
   private func wordRow(for word: WordOverview) -> some View {
-    NavigationLink(destination: WordDetailsView(viewModel: .init(wordId: word.id))) {
+    Button {
+      coordinator.deckRoute.navigate(to: .WordDetails(word.id))
+    } label: {
       Text(word.name)
+        .foregroundStyle(.black)
     }
     .swipeActions(edge: .trailing) {
       deleteButton(for: word.id)
